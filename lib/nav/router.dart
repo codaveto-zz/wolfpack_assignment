@@ -37,7 +37,7 @@ class Router extends RouterBase {
         pageBuilder: (context, animation, secondaryAnimation) =>
         const StartupView(),
         settings: data,
-        transitionsBuilder: TransitionMaster.sharedAxisTransition,
+        transitionsBuilder: TransitionMaster.fadeTransition,
         transitionDuration: const Duration(milliseconds: 400),
       );
     },

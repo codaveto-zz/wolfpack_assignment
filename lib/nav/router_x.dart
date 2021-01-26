@@ -9,7 +9,7 @@
 //     CustomRoute(
 //       page: StartupView,
 //       name: 'startupView',
-//       transitionsBuilder: TransitionMaster.sharedAxisTransition,
+//       transitionsBuilder: TransitionMaster.fadeTransition,
 //       durationInMilliseconds: CustomSize.defaultAnimationDuration,
 //     ),
 //     CustomRoute(
