@@ -1,27 +1,33 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:wolfpack_assign/data/enum/icon_enum.dart';
 
 import 'medicine.dart';
 
-part 'moment.freezed.dart';
+class Moment {
+  final String title;
+  final IconEnum icon;
+  final List<Medicine> medicineList;
+  final DateTime date;
+  bool isCollapsed;
+  bool _isTaken = false;
 
-part 'moment.g.dart';
+  Moment({this.title, this.icon, this.medicineList, this.date, this.isCollapsed});
 
-@freezed
-abstract class Moment with _$Moment{
-  @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
-  const factory Moment({@required final String title,@required final IconEnum icon,@required final List<
-      Medicine> medicineList,@required final DateTime date,@required bool isCollapsed}
-  ) = _Moment;
-  factory Moment.fromJson(Map<String, dynamic> json) => _$MomentFromJson(json);
-}
+  bool isTaken() {
+    if (_isTaken == false) {
+      for (Medicine medicine in this.medicineList) {
+        if (medicine.isTaken) {
+          _isTaken = true;
+          break;
+        }
+      }
+    }
+    return _isTaken;
+  }
 
-@freezed
-abstract class MomentList with _$MomentList {
-  @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
-  const factory MomentList({
-    @required List<Moment> momentList,
-  }) = _MomentList;
-
-  factory MomentList.fromJson(Map<String, dynamic> json) => _$MomentListFromJson(json);
+  void setTaken(bool isTaken) {
+    for (Medicine medicine in this.medicineList) {
+      medicine.isTaken = isTaken;
+    }
+    _isTaken = isTaken;
+  }
 }

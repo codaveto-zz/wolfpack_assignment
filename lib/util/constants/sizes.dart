@@ -9,5 +9,6 @@ abstract class CustomSize {
 
   // animations
   static const int defaultAnimationDuration = 400;
+  static const int defaultFakeWaitingDuration = 4;
 
 }

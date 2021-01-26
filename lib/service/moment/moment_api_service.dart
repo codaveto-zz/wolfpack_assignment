@@ -4,23 +4,24 @@ import 'package:flutter/material.dart';
 import 'package:wolfpack_assign/data/enum/icon_enum.dart';
 import 'package:wolfpack_assign/data/model/moment.dart';
 import 'package:wolfpack_assign/data/model/medicine.dart';
+import 'package:wolfpack_assign/util/constants/sizes.dart';
 
 class MomentApiService {
 
   Moment _breakfast({@required int day}) => Moment(title: 'Ontbijt', date: DateTime(2019, 1, day, 8), icon: IconEnum.breakfast, medicineList: [Medicine(
       name: 'Paracetamol', isTaken: Random().nextBool()), Medicine(name: 'Vitamine C', isTaken: Random().nextBool())], isCollapsed: false);
 
-  Moment _lunch({@required int day}) => Moment(title: 'Lunch', date: DateTime(2019, 1, day, 12), icon: IconEnum.breakfast, medicineList: [Medicine(
+  Moment _lunch({@required int day}) => Moment(title: 'Lunch', date: DateTime(2019, 1, day, 12), icon: IconEnum.home, medicineList: [Medicine(
       name: 'Acebutol', isTaken: Random().nextBool())], isCollapsed: false);
 
-  Moment _atWork({@required int day}) => Moment(title: 'Op \'t werk', date: DateTime(2019, 1, day, 15), icon: IconEnum.breakfast, medicineList: [Medicine(
+  Moment _atWork({@required int day}) => Moment(title: 'Op \'t werk', date: DateTime(2019, 1, day, 15), icon: IconEnum.business, medicineList: [Medicine(
       name: 'Paracetamol', isTaken: Random().nextBool()), Medicine(name: 'Vitamine C', isTaken: Random().nextBool())],isCollapsed: false);
 
-  Moment _bedTime({@required int day}) => Moment(title: 'Voor het slapen', date: DateTime(2019, 1, day, 22), icon: IconEnum.breakfast, medicineList: [Medicine(
+  Moment _bedTime({@required int day}) => Moment(title: 'Voor het slapen', date: DateTime(2019, 1, day, 22), icon: IconEnum.alarm, medicineList: [Medicine(
       name: 'Melatonin', isTaken: Random().nextBool())], isCollapsed: false);
 
   Future<List<Moment>> get moments async {
-    await Future.delayed(Duration(seconds: 4));
+    await Future.delayed(Duration(seconds: CustomSize.defaultFakeWaitingDuration));
     return [
     _breakfast(day: 1),
     _lunch(day: 1),

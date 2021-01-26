@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:wolfpack_assign/util/constants/sizes.dart';
 
 ThemeData buildThemeData(BuildContext context) {
-  final primaryColor = _generateMaterialColor(Colors.blueGrey);
+  final primaryColor = _generateMaterialColor(Colors.grey);
   return ThemeData(
     primarySwatch: primaryColor,
     cursorColor: primaryColor,

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 import 'package:wolfpack_assign/nav/router.dart';
 import 'package:wolfpack_assign/service/log/logger_service.dart';
+import 'package:wolfpack_assign/util/constants/sizes.dart';
 import 'package:wolfpack_assign/util/injection/locator.dart';
 import 'package:stacked/stacked.dart';
 
@@ -15,7 +16,7 @@ class StartupViewModel extends BaseViewModel {
   void initialise() async {
     _log = locator<LoggerService>().getLogger('StartupViewModel');
     _log.d(''' Showing welcome message.. ''');
-    await Future.delayed(Duration(seconds: 4));
+    await Future.delayed(Duration(seconds: CustomSize.defaultFakeWaitingDuration));
     Get.offNamed(Routes.homeView);
   }
 
