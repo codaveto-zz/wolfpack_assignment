@@ -9,7 +9,7 @@ abstract class CustomSize {
 
   // animations
   static const int defaultAnimationDuration = 400;
-  static const int defaultFakeWaitingDuration = 0;
+  static const int defaultFakeWaitingDuration = 4;
 
   // icon
   static const double iconHeight = 20;
