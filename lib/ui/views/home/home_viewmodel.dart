@@ -1,5 +1,6 @@
 import 'package:logger/logger.dart';
 import 'package:stacked/stacked.dart';
+import 'package:wolfpack_assign/data/model/medicine.dart';
 import 'package:wolfpack_assign/data/model/moment.dart';
 import 'package:wolfpack_assign/service/log/logger_service.dart';
 import 'package:wolfpack_assign/service/moment/moment_api_service.dart';
@@ -32,7 +33,7 @@ class HomeViewModel extends BaseViewModel {
 
   bool showHeader(int index) {
     if (index != 0) {
-      return this.moments[index - 1].date.day != this.moments[index].date.day;
+      return this._moments[index - 1].date.day != this._moments[index].date.day;
     }
     return true;
   }
@@ -44,8 +45,11 @@ class HomeViewModel extends BaseViewModel {
   // --------------- UI --------------- UI --------------- UI --------------- \\
 
   void tapMoment(int index, bool value) {
-    final moment = this.moments[index];
-    moment.setTaken(!moment.isTaken());
+    this.notifyListeners();
+  }
+
+  void tapMedicine(Medicine medicine, int momentIndex) {
+    this._moments[momentIndex].medicineList.firstWhere((element) => element.name == medicine.name).isTaken = !medicine.isTaken;
     this.notifyListeners();
   }
 

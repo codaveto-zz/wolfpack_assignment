@@ -4,6 +4,9 @@ import 'package:loading_overlay/loading_overlay.dart';
 import 'package:progress_indicators/progress_indicators.dart';
 import 'package:stacked/stacked.dart';
 import 'package:wolfpack_assign/data/enum/icon_enum.dart';
+import 'package:wolfpack_assign/data/model/medicine.dart';
+import 'package:wolfpack_assign/data/model/moment.dart';
+import 'package:wolfpack_assign/hijacked/hijack_expansion_tile.dart';
 import 'package:wolfpack_assign/util/constants/sizes.dart';
 import 'package:wolfpack_assign/util/methods/date_formatter.dart';
 
@@ -52,7 +55,7 @@ class HomeView extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               _getOptionalHeader(model, index),
-                              _Moment(
+                              _MomentWidget(
                                 index: index,
                               ),
                             ],
@@ -95,34 +98,37 @@ class HomeView extends StatelessWidget {
   }
 }
 
-class _Moment extends ViewModelWidget<HomeViewModel> {
-  const _Moment({this.index, Key key}) : super(key: key, reactive: true);
+class _MomentWidget extends ViewModelWidget<HomeViewModel> {
+  const _MomentWidget({this.index, Key key}) : super(key: key, reactive: true);
 
   final int index;
 
   @override
   Widget build(BuildContext context, HomeViewModel model) {
     final moment = model.moments[index];
-    final isTaken = moment.isTaken();
+    final isOpen = moment.isOpen();
+    if (moment.date.day == 1) {
+      print('is open: $isOpen');
+    }
     return Card(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
+        borderRadius: BorderRadius.circular(CustomSize.cardRadius),
       ),
-      color: isTaken ? Colors.grey : Colors.white,
+      color: isOpen ? Color(0xff49888f) : Colors.white,
       child: Theme(
         data: Get.theme.copyWith(
-          unselectedWidgetColor: isTaken ? Colors.white : Colors.black,
-          accentColor: isTaken ? Colors.white : Colors.black,
+          unselectedWidgetColor: isOpen ? Colors.white : Colors.black,
+          accentColor: isOpen ? Colors.white : Colors.black,
         ),
-        child: ExpansionTile(
+        child: HijackedExpansionTile(
           title: Text(
             moment.title,
             textAlign: TextAlign.left,
-            style: TextStyle(fontWeight: FontWeight.bold, color: isTaken ? Colors.white : Colors.black),
+            style: TextStyle(fontWeight: FontWeight.bold, color: isOpen ? Colors.white : Colors.black),
           ),
           subtitle: Text(
             DateFormatter.time(moment.date),
-            style: TextStyle(color: isTaken ? Colors.white : Colors.black),
+            style: TextStyle(color: isOpen ? Colors.white : Colors.black),
           ),
           leading: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -134,16 +140,83 @@ class _Moment extends ViewModelWidget<HomeViewModel> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-                isTaken ? 'assets/images/check_white.png' : 'assets/images/elipse.png',
-                height: 20,
+                isOpen ? 'assets/images/check_white.png' : 'assets/images/elipse.png',
+                height: CustomSize.iconHeight,
               ),
             ],
           ),
           onExpansionChanged: (value) {
             model.tapMoment(index, value);
           },
-          children: [],
+          children: _getMedicines(moment, index),
         ),
+      ),
+    );
+  }
+
+  List<Widget> _getMedicines(Moment moment, int momentIndex) {
+    List<Widget> medicines = [];
+    bool first = true;
+    for (Medicine medicine in moment.medicineList) {
+      medicines.add(_MedicineWidget(
+          medicine: medicine, first: first, ofMany: moment.medicineList.length > 1, momentIndex: momentIndex));
+      first = false;
+    }
+    if (medicines.isEmpty)
+      medicines.add(Padding(
+        padding: const EdgeInsets.all(CustomSize.medium),
+        child: Text(
+          'No medicines today!',
+          style: TextStyle(fontStyle: FontStyle.italic),
+        ),
+      ));
+    return medicines;
+  }
+}
+
+class _MedicineWidget extends ViewModelWidget<HomeViewModel> {
+  _MedicineWidget({this.medicine, this.first, this.ofMany, this.momentIndex, Key key})
+      : super(key: key, reactive: true);
+
+  final Medicine medicine;
+  final bool first, ofMany;
+  final int momentIndex;
+
+  @override
+  Widget build(BuildContext context, HomeViewModel model) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(first && ofMany ? 0 : CustomSize.cardRadius),
+          bottomRight: Radius.circular(first && ofMany ? 0 : CustomSize.cardRadius),
+        ),
+      ),
+      child: Column(
+        children: [
+          this.first
+              ? Container(
+                  height: 4,
+                  color: Color(0xff90be51),
+                )
+              : SizedBox.shrink(),
+          ListTile(
+            onTap: () {
+              model.tapMedicine(medicine, momentIndex);
+            },
+            title: Text(medicine.name),
+            subtitle: Text(medicine.amount),
+            trailing: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  medicine.isTaken ? 'assets/images/check_green.png' : 'assets/images/elipse.png',
+                  height: CustomSize.iconHeight,
+                ),
+              ],
+            ),
+          )
+        ],
       ),
     );
   }

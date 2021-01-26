@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 ThemeData buildThemeData(BuildContext context) {
-  final primaryColor = _generateMaterialColor(Colors.grey);
+  final primaryColor = _generateMaterialColor(Color(0xff49888f));
   return ThemeData(
     primarySwatch: primaryColor,
     cursorColor: primaryColor,
