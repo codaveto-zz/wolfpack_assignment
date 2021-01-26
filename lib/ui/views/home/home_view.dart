@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:wolfpack_assign/ui/views/check_list/check_list_view.dart';
+import 'package:wolfpack_assign/ui/views/week_overview/week_overview_view.dart';
 
 import 'home_viewmodel.dart';
 
@@ -31,7 +32,7 @@ class HomeView extends StatelessWidget {
               body: TabBarView(
                 children: [
                   CheckListView(),
-                  CheckListView(),
+                  WeekOverviewView(),
                 ],
               ),
             ),
