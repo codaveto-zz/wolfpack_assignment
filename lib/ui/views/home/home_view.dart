@@ -107,7 +107,6 @@ class _MomentWidget extends ViewModelWidget<HomeViewModel> {
   Widget build(BuildContext context, HomeViewModel model) {
     final moment = model.moments[index];
     final isOpen = moment.isOpen();
-    moment.medicineList.clear();
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(CustomSize.cardRadius),
