@@ -107,9 +107,6 @@ class _MomentWidget extends ViewModelWidget<HomeViewModel> {
   Widget build(BuildContext context, HomeViewModel model) {
     final moment = model.moments[index];
     final isOpen = moment.isOpen();
-    if (moment.date.day == 1) {
-      print('is open: $isOpen');
-    }
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(CustomSize.cardRadius),
