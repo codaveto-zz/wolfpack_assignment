@@ -107,6 +107,7 @@ class _MomentWidget extends ViewModelWidget<HomeViewModel> {
   Widget build(BuildContext context, HomeViewModel model) {
     final moment = model.moments[index];
     final isOpen = moment.isOpen();
+    moment.medicineList.clear();
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(CustomSize.cardRadius),
@@ -160,12 +161,17 @@ class _MomentWidget extends ViewModelWidget<HomeViewModel> {
       first = false;
     }
     if (medicines.isEmpty)
-      medicines.add(Padding(
-        padding: const EdgeInsets.all(CustomSize.medium),
-        child: Text(
-          'No medicines today!',
-          style: TextStyle(fontStyle: FontStyle.italic, color: Colors.white),
-        ),
+      medicines.add(Column(
+        children: [
+          _greenBorder(),
+          Padding(
+            padding: const EdgeInsets.all(CustomSize.mediumLarge),
+            child: Text(
+              'No medicines today!',
+              style: TextStyle(fontStyle: FontStyle.italic, color: Colors.white),
+            ),
+          ),
+        ],
       ));
     return medicines;
   }
@@ -191,12 +197,7 @@ class _MedicineWidget extends ViewModelWidget<HomeViewModel> {
       ),
       child: Column(
         children: [
-          this.first
-              ? Container(
-                  height: 4,
-                  color: Color(0xff90be51),
-                )
-              : SizedBox.shrink(),
+          this.first ? _greenBorder() : SizedBox.shrink(),
           ListTile(
             onTap: () {
               model.tapMedicine(medicine, momentIndex);
@@ -217,4 +218,11 @@ class _MedicineWidget extends ViewModelWidget<HomeViewModel> {
       ),
     );
   }
+}
+
+Container _greenBorder() {
+  return Container(
+    height: 4,
+    color: Color(0xff90be51),
+  );
 }
