@@ -8,7 +8,7 @@ import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../service/log/logger_service.dart';
-import '../../service/moment_api_service.dart';
+import '../../service/moment/moment_api_service.dart';
 import 'singleton_module.dart';
 
 /// adds generated dependencies

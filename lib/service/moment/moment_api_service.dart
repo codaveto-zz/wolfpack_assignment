@@ -19,7 +19,9 @@ class MomentApiService {
   Moment _bedTime({@required int day}) => Moment(title: 'Voor het slapen', date: DateTime(2019, 1, day, 22), icon: IconEnum.breakfast, medicineList: [Medicine(
       name: 'Melatonin', isTaken: Random().nextBool())], isCollapsed: false);
 
-  List<Moment> get moments => [
+  Future<List<Moment>> get moments async {
+    await Future.delayed(Duration(seconds: 4));
+    return [
     _breakfast(day: 1),
     _lunch(day: 1),
 
@@ -62,5 +64,6 @@ class MomentApiService {
 
     _bedTime(day: 14),
   ];
+  }
 
 }
