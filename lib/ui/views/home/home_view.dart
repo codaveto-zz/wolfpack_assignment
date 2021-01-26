@@ -164,7 +164,7 @@ class _MomentWidget extends ViewModelWidget<HomeViewModel> {
         padding: const EdgeInsets.all(CustomSize.medium),
         child: Text(
           'No medicines today!',
-          style: TextStyle(fontStyle: FontStyle.italic),
+          style: TextStyle(fontStyle: FontStyle.italic, color: Colors.white),
         ),
       ));
     return medicines;
