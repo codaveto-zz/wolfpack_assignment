@@ -28,7 +28,7 @@ class StartupViewModel extends BaseViewModel {
 
   // --------------- GET & SET --------------- GET & SET --------------- GET & SET --------------- \\
 
-  String get welcomeMessage => 'Welcome WolfpackIT';
+  String get welcomeMessage => 'Welcome Wolfpack IT';
 
 
 }
