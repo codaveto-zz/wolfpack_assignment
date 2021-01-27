@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:loading_overlay/loading_overlay.dart';
-import 'package:progress_indicators/progress_indicators.dart';
 import 'package:stacked/stacked.dart';
 import 'package:wolfpack_assign/data/enum/icon_enum.dart';
 import 'package:wolfpack_assign/data/model/medicine.dart';
 import 'package:wolfpack_assign/data/model/moment.dart';
 import 'package:wolfpack_assign/hijacked/hijack_expansion_tile.dart';
+import 'package:wolfpack_assign/ui/widget/header.dart';
 import 'package:wolfpack_assign/util/constants/sizes.dart';
 import 'package:wolfpack_assign/util/methods/date_formatter.dart';
 
@@ -18,71 +17,44 @@ class CheckListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<CheckListViewModel>.reactive(
-      onModelReady: (model) => model.initialise(),
+        onModelReady: (model) => model.initialise(),
         builder: (context, model, child) {
-          return LoadingOverlay(
-            progressIndicator: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.black),
-                ),
-                SizedBox(
-                  height: CustomSize.large,
-                ),
-                FadingText(
-                  model.loadingText,
-                  style: Get.textTheme.headline6,
-                ),
-              ],
-            ),
-            opacity: 1,
-            isLoading: model.isBusy,
-            child: model.moments != null && model.moments.isNotEmpty
-                ? Padding(
-              padding: const EdgeInsets.all(CustomSize.medium),
-              child: ListView.separated(
-                itemBuilder: (context, index) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _getOptionalHeader(model, index),
-                      _MomentWidget(
-                        index: index,
-                      ),
-                    ],
-                  );
-                },
-                separatorBuilder: (BuildContext context, int index) {
-                  return SizedBox(
-                    height: CustomSize.small,
-                  );
-                },
-                itemCount: model.moments?.length ?? 0,
-              ),
-            )
-                : Center(
-              child: Text(
-                'No moments for you',
-                style: Get.textTheme.headline6,
-              ),
-            ),
-          );
+          return model.moments != null && model.moments.isNotEmpty
+              ? Padding(
+                  padding: const EdgeInsets.all(CustomSize.medium),
+                  child: ListView.separated(
+                    itemBuilder: (context, index) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _getOptionalHeader(model, index),
+                          _MomentWidget(
+                            index: index,
+                          ),
+                        ],
+                      );
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return SizedBox(
+                        height: CustomSize.small,
+                      );
+                    },
+                    itemCount: model.moments?.length ?? 0,
+                  ),
+                )
+              : Center(
+                  child: Text(
+                    model.noMomentsText,
+                    style: Get.textTheme.headline6,
+                  ),
+                );
         },
         viewModelBuilder: () => CheckListViewModel());
   }
 
   Widget _getOptionalHeader(CheckListViewModel model, int index) {
     if (model.showHeader(index)) {
-      return Padding(
-        padding: const EdgeInsets.only(top: CustomSize.medium, bottom: CustomSize.medium, left: CustomSize.xs),
-        child: Text(
-          model.getHeaderText(index),
-          style: Get.textTheme.headline5.copyWith(
-            color: Colors.blueGrey,
-          ),
-        ),
-      );
+      return HeaderWidget(title: model.getHeaderText(index));
     } else {
       return SizedBox.shrink();
     }
@@ -157,7 +129,7 @@ class _MomentWidget extends ViewModelWidget<CheckListViewModel> {
           Padding(
             padding: const EdgeInsets.all(CustomSize.mediumLarge),
             child: Text(
-              'No medicines today!',
+              'Geen medicijnen vandaag!',
               style: TextStyle(fontStyle: FontStyle.italic, color: Colors.white),
             ),
           ),
@@ -216,5 +188,3 @@ Container _greenBorder() {
     color: Color(0xff90be51),
   );
 }
-
-
