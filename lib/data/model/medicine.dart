@@ -1,24 +1,16 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'dart:math';
 
-part 'medicine.freezed.dart';
+import 'package:flutter/material.dart';
 
-part 'medicine.g.dart';
+class Medicine {
 
-@freezed
-abstract class Medicine with _$Medicine{
-  @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
-  const factory Medicine(
-  {@required final String name, bool isTaken}
-  ) = _Medicine;
-  factory Medicine.fromJson(Map<String, dynamic> json) => _$MedicineFromJson(json);
-}
+  final String name;
+  bool isTaken;
+  String _amount;
 
-@freezed
-abstract class MedicineList with _$MedicineList {
-  @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
-  const factory MedicineList({
-    @required List<Medicine> medicineList,
-  }) = _MedicineList;
+  Medicine({@required this.name, @required this.isTaken}) {
+    this._amount = '${Random().nextInt(4) + 1} stuks, ${Random().nextInt(9) + 1}0 mg';
+  }
 
-  factory MedicineList.fromJson(Map<String, dynamic> json) => _$MedicineListFromJson(json);
+  String get amount => _amount;
 }

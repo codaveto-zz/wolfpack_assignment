@@ -8,7 +8,8 @@ import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../service/log/logger_service.dart';
-import '../../service/moment_api_service.dart';
+import '../../service/moment/moment_api_service.dart';
+import '../../service/moment/moment_store_service.dart';
 import 'singleton_module.dart';
 
 /// adds generated dependencies
@@ -25,6 +26,7 @@ GetIt $initGetIt(
   // Eager singletons must be registered in the right order
   gh.singleton<LoggerService>(singletonModule.loggerService);
   gh.singleton<MomentApiService>(singletonModule.momentApiService);
+  gh.singleton<MomentStoreService>(singletonModule.momentStoreService);
   return get;
 }
 
@@ -33,4 +35,6 @@ class _$SingletonModule extends SingletonModule {
   LoggerService get loggerService => LoggerService();
   @override
   MomentApiService get momentApiService => MomentApiService();
+  @override
+  MomentStoreService get momentStoreService => MomentStoreService();
 }

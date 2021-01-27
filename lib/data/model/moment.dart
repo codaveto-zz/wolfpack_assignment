@@ -1,27 +1,25 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:wolfpack_assign/data/enum/icon_enum.dart';
 
 import 'medicine.dart';
 
-part 'moment.freezed.dart';
+class Moment {
+  final String title;
+  final IconEnum icon;
+  final List<Medicine> medicineList;
+  final DateTime date;
+  bool isCollapsed;
+  bool _isOpen;
 
-part 'moment.g.dart';
+  Moment({this.title, this.icon, this.medicineList, this.date, this.isCollapsed});
 
-@freezed
-abstract class Moment with _$Moment{
-  @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
-  const factory Moment({@required final String title,@required final IconEnum icon,@required final List<
-      Medicine> medicineList,@required final DateTime date,@required bool isCollapsed}
-  ) = _Moment;
-  factory Moment.fromJson(Map<String, dynamic> json) => _$MomentFromJson(json);
-}
-
-@freezed
-abstract class MomentList with _$MomentList {
-  @JsonSerializable(fieldRename: FieldRename.snake, includeIfNull: false)
-  const factory MomentList({
-    @required List<Moment> momentList,
-  }) = _MomentList;
-
-  factory MomentList.fromJson(Map<String, dynamic> json) => _$MomentListFromJson(json);
+  bool isOpen() {
+    _isOpen = true;
+    for (Medicine medicine in this.medicineList) {
+      if (!medicine.isTaken) {
+        _isOpen = false;
+        break;
+      }
+    }
+    return _isOpen;
+  }
 }

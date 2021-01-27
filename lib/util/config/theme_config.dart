@@ -1,11 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:wolfpack_assign/util/constants/sizes.dart';
 
 ThemeData buildThemeData(BuildContext context) {
-  final primaryColor = _generateMaterialColor(Colors.blueGrey);
+  final primaryColor = _generateMaterialColor(Color(0xff49888f));
   return ThemeData(
     primarySwatch: primaryColor,
     cursorColor: primaryColor,
