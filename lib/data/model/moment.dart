@@ -1,11 +1,8 @@
 import 'package:wolfpack_assign/data/enum/icon_enum.dart';
-import 'package:wolfpack_assign/service/log/logger_service.dart';
-import 'package:wolfpack_assign/util/injection/locator.dart';
 
 import 'medicine.dart';
 
 class Moment {
-  final _log = locator<LoggerService>().getLogger('Moment');
   final String title;
   final IconEnum icon;
   final List<Medicine> medicineList;

@@ -23,6 +23,7 @@ class DateFormatter {
         return 'Zaterdag';
       case DateTime.sunday:
         return 'Zondag';
+      default: return null;
     }
   }
 
@@ -52,6 +53,7 @@ class DateFormatter {
         return 'November';
       case DateTime.december:
         return 'December';
+      default: return null;
     }
   }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:wolfpack_assign/util/constants/sizes.dart';
 
 const Duration _kExpand = Duration(milliseconds: 200);
 
@@ -22,12 +21,12 @@ class HijackedExpansionTile extends StatefulWidget {
     this.expandedCrossAxisAlignment,
     this.expandedAlignment,
     this.childrenPadding,
-  }) : assert(initiallyExpanded != null),
+  })  : assert(initiallyExpanded != null),
         assert(maintainState != null),
         assert(
-        expandedCrossAxisAlignment != CrossAxisAlignment.baseline,
-        'CrossAxisAlignment.baseline is not supported since the expanded children '
-            'are aligned in a column, not a row. Try to use another constant.',
+          expandedCrossAxisAlignment != CrossAxisAlignment.baseline,
+          'CrossAxisAlignment.baseline is not supported since the expanded children '
+          'are aligned in a column, not a row. Try to use another constant.',
         ),
         super(key: key);
 
@@ -156,8 +155,7 @@ class _HijackedExpansionTileState extends State<HijackedExpansionTile> with Sing
     _backgroundColor = _controller.drive(_backgroundColorTween.chain(_easeOutTween));
 
     _isExpanded = PageStorage.of(context)?.readState(context) as bool ?? widget.initiallyExpanded;
-    if (_isExpanded)
-      _controller.value = 1.0;
+    if (_isExpanded) _controller.value = 1.0;
   }
 
   @override
@@ -173,8 +171,7 @@ class _HijackedExpansionTileState extends State<HijackedExpansionTile> with Sing
         _controller.forward();
       } else {
         _controller.reverse().then<void>((void value) {
-          if (!mounted)
-            return;
+          if (!mounted) return;
           setState(() {
             // Rebuild without widget.children.
           });
@@ -182,8 +179,7 @@ class _HijackedExpansionTileState extends State<HijackedExpansionTile> with Sing
       }
       PageStorage.of(context)?.writeState(context, _isExpanded);
     });
-    if (widget.onExpansionChanged != null)
-      widget.onExpansionChanged(_isExpanded);
+    if (widget.onExpansionChanged != null) widget.onExpansionChanged(_isExpanded);
   }
 
   Widget _buildChildren(BuildContext context, Widget child) {
@@ -205,10 +201,11 @@ class _HijackedExpansionTileState extends State<HijackedExpansionTile> with Sing
               leading: widget.leading,
               title: widget.title,
               subtitle: widget.subtitle,
-              trailing: widget.trailing ?? RotationTransition(
-                turns: _iconTurns,
-                child: const Icon(Icons.expand_more),
-              ),
+              trailing: widget.trailing ??
+                  RotationTransition(
+                    turns: _iconTurns,
+                    child: const Icon(Icons.expand_more),
+                  ),
             ),
           ),
           ClipRect(
@@ -253,8 +250,7 @@ class _HijackedExpansionTileState extends State<HijackedExpansionTile> with Sing
           ),
           enabled: !closed,
         ),
-        offstage: closed
-    );
+        offstage: closed);
 
     return AnimatedBuilder(
       animation: _controller.view,
